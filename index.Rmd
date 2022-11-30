@@ -10,7 +10,7 @@ always_allow_html: true
 ---
 
 This is my PM566 Final Project website.
-**Download PDF Report:** [**Click Here**]($pdf->generate('https://rawcdn.githack.com/Liily-shh/PM566-FinalProject/2ec40019f7e5993bdace359bca507429901becc7/index.html', '/tmp/pdf');)
+**Download PDF Report:** [**Click Here**](https://github.com/Liily-shh/PM566-FinalProject/blob/main/index.pdf)
 
 <br>
 
