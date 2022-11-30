@@ -2,8 +2,8 @@
 title: "PM566 Final Project"
 author: "Lily Shkhyan"
 output: 
-  pdf_document: default
   html_document: 
+  pdf_document: default
   github_document: 
       html_preview: false 
 always_allow_html: true
