@@ -96,7 +96,7 @@ Here I attempt to determine what percentage of Los Angeles County population is 
 
 ## Showcasing plots {.tabset}
 
-To Further investigate the different populations within Los Angeles County and their access to fresh affordable foods, I decided to look at the poverty rate against an appropriate distance to travel for fresh affordable foods for 5 sub-populations: Whites, African Americans, Asians, Hispanics, and American Indian and Alaska Natives. 
+To further investigate the different populations within Los Angeles County and their access to fresh affordable foods, I decided to look at the poverty rate against an appropriate distance to travel for fresh affordable foods for 5 sub-populations: Whites, African Americans, Asians, Hispanics, and American Indian and Alaska Natives. 
 
 ### White Population
 
@@ -125,7 +125,7 @@ Based off this interactive visual, we find that the African American population 
 ```{r echo=FALSE}
 data %>% 
   plot_ly(x = ~PovertyRate, y = ~TractAsian, 
-          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
+          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10	,
           size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
 ```
 Based off this interactive visual, we find that the Asian population within Los Angeles County stays consistent in population size and are leaning slightly lower on the poverty rate scale; from this, the majority of the Asian population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles. 
@@ -153,4 +153,8 @@ Based off this interactive visual, we find that the American Indian and Alaska N
 ## {-}
 
 
+# Conclusion
 
+We that only 2.61% of the Los Angeles County population has access to affordable fresh foods within 1-10 miles as of 2019. Also, 99.87% of the Los Angeles County population has no access to affordable fresh foods in less than 10 miles as of 2019. Moreover, only 12.3% of the Los Angeles County population has access to affordable fresh foods in less than 1 mile as of 2019. 
+
+To further investigate the different populations within Los Angeles County and their access to fresh, affordable foods, we looked at the poverty rate against an appropriate distance to travel for fresh, affordable foods for 5 sub-populations: Whites, African Americans, Asians, Hispanics, and American Indian and Alaska Natives. We saw a consistently high white population within Los Angeles County; according to the data, the lean lower on the poverty rate scale, and many of the white population in Los Angeles County lacks access to Fresh, Affordable foods within 1-10 miles. We find that the African American population within Los Angeles County is more evenly distributed on the poverty rate scale; despite this, the majority of the African American population in Los Angeles County lacks access to Fresh, Affordable foods within 1-10 miles. The  Asian population within Los Angeles County stays consistent in population size and is leaning slightly lower on the poverty rate scale; from this, the majority of the Asian population in Los Angeles County lacks access to Fresh, Affordable foods within 1-10 miles. The Hispanic population within Los Angeles County consistently remains the biggest sub-population and is leaning lower on the poverty rate scale; from this, the majority of the Hispanic population in Los Angeles County lacks access to Fresh, Affordable foods within 1-10 miles. Lastly, we find that the American Indian and Alaska Native population within Los Angeles County consistently remains the smallest sub-population and is leaning lower on the poverty rate scale; from this, the majority of the American Indian and Alaska Native population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles.
