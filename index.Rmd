@@ -2,12 +2,15 @@
 title: "PM566 Final Project"
 author: "Lily Shkhyan"
 output: 
-    html_document:
-        toc: TRUE
-        toc_float: TRUE
+  pdf_document: default
+  html_document: 
+  github_document: 
+      html_preview: false 
+always_allow_html: true
 ---
 
 This is my PM566 Final Project website.
+**Download PDF Report:** [**Click Here**]($pdf->generate('https://rawcdn.githack.com/Liily-shh/PM566-FinalProject/2ec40019f7e5993bdace359bca507429901becc7/index.html', '/tmp/pdf');)
 
 <br>
 
