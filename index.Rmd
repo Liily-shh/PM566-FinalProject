@@ -10,7 +10,7 @@ always_allow_html: true
 ---
 
 This is my PM566 Final Project website.
-**Download PDF Report:** [**Click Here**](https://github.com/Liily-shh/PM566-FinalProject/blob/main/index.pdf)
+**Download PDF Report:** [**Click Here**](https://github.com/Liily-shh/PM566-FinalProject/raw/main/index.pdf)
 
 <br>
 
