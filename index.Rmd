@@ -103,7 +103,7 @@ data %>%
           type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
           size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
 ```
-Based off this interactive visual, we find that the white population with
+Based off this interactive visual, we find that the white population within Los Angeles County lean lower on the poverty rate scale; despite this, many a lot of the white population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles. 
 
 
 
@@ -115,6 +115,7 @@ data %>%
           type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
           size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
 ```
+Based off this interactive visual, we find that the African American population within Los Angeles County are more evenly distributed on the poverty rate scale; despite this, the majority of theAfrican American population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles. 
 
 ### Asian Population
 
@@ -124,6 +125,7 @@ data %>%
           type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
           size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
 ```
+Based off this interactive visual, we find that the Asian population within Los Angeles County stays consistent in population size and are leaning slightly lower on the poverty rate scale; from this, the majority of the Asian population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles. 
 
 ### Hispanic Population
 
@@ -133,6 +135,7 @@ data %>%
           type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
           size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
 ```
+Based off this interactive visual, we find that the Hispanic population within Los Angeles County consistently remains the biggest sub-population and are leaning lower on the poverty rate scale; from this, the majority of the Hispanic population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles.
 
 ### American Indian and Alaska Native Population
 
@@ -142,6 +145,7 @@ data %>%
           type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
           size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
 ```
+Based off this interactive visual, we find that the American Indian and Alaska Native population within Los Angeles County consistently remains the smallest sub-population and are leaning lower on the poverty rate scale; from this, the majority of the American Indian and Alaska Native population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles.
 
 ## {-}
 
