@@ -11,8 +11,6 @@ This is my PM566 Final Project website.
 
 <br>
 
-# Lab Setup 
-
 ```{r setup, message=FALSE, echo=FALSE, warning=FALSE}
 library(data.table)
 library(tidyverse)
@@ -20,6 +18,7 @@ library(dplyr)
 library(plotly)
 library(DT)
 library(knitr)
+library(readxl)
 # Initialize code chunk options
 opts_chunk$set(
   warning = FALSE,
@@ -32,46 +31,116 @@ opts_chunk$set(
   fig.asp = 0.618,
   out.width = "700px")
 ```
-```{r}
-source("process_COVID_data.R")
-p1_scatter <- cv_states_today %>% 
-  plot_ly(x = ~pop_density, y = ~deathsper100k,
-          type = 'scatter', mode = 'markers', color = ~state,
-          size = ~population, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5),
-          hoverinfo = 'text',
-          text = ~paste( paste(state, ":", sep=""), paste(" Cases per 100k: ", per100k, sep="") , paste(" Deaths per 100k: ",
-                        deathsper100k, sep=""), sep = "<br>")) %>%
-  layout(title = "Population-normalized COVID-19 deaths vs. population density",
-                  yaxis = list(title = "Deaths per 100k"), xaxis = list(title = "Population Density"),
-         hovermode = "compare")
 
-# filter out "District of Columbia"
-cv_states_today_scatter <- cv_states_today %>% filter(state!="District of Columbia")
+# Project Description 
 
-p2_scatter <- cv_states_today_scatter %>% 
-  plot_ly(x = ~pop_density, y = ~deathsper100k,
-          type = 'scatter', mode = 'markers', color = ~state,
-          size = ~population, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5),
-          hoverinfo = 'text',
-          text = ~paste( paste(state, ":", sep=""), paste(" Cases per 100k: ", per100k, sep="") , paste(" Deaths per 100k: ",
-                        deathsper100k, sep=""), sep = "<br>")) %>%
-  layout(title = "Population-normalized COVID-19 deaths vs. population density",
-                  yaxis = list(title = "Deaths per 100k"), xaxis = list(title = "Population Density"),
-         hovermode = "compare")
+The University of Southern California is located in the heart of downtown Los Angeles. Despite its countless benefits as a university, USC does not offer students access to a healthy diet. The University is located in a food desert. A food desert can be described as an area where it is difficult to buy affordable, good-quality fresh food. Since the up-to-date contemporary university cannot provide their students with fresh, affordable goods, I have made an attempt to see what areas of Los Angeles are not in a food desert and families have access to affordable foods. The primary question I am set out to answer is: What percentage of Los Angeles County has access to affordable fresh foods as of 2019? I am also interested to know: What percentage of Los Angeles County is it hardest to obtain affordable fresh foods (greater than 20 miles) as of 2019? and What percentage of Los Angeles County is it easiest to obtain affordable fresh foods (less than one mile) as of 2019?
+ 
+# Methods
+  
+My data was acquired from the USDA Economic Research Service Website (<https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/#Current%20Version>).
+  
+### Read in data
+```{r, cache=TRUE, echo=FALSE}
+data <- read_excel('FoodAccessResearch2019.xlsx')
+data
 ```
+### Clean Data
+```{r, results = FALSE, echo=FALSE}
+### Dimensions 
+dim(data)
+```
+```{r, results = FALSE, echo=FALSE}
+### Header, footer,
+head(data)
+tail(data)
+### Taking a closer look at variables 
+summary(is.na(data))
+```
+```{r, echo=FALSE}
+# Count NA values
+data_Update <- is.na(data)
+```
+After reading in my data, I checked the dimensions, headers, and footers. I found that there are 2334 rows and 147 variables. After taking a closer look at the variables, I found that there were 2328 missing values; however, I kept them as NA to avoid reducing statistically power.
+
+# Data Exploration and Plots
+
+I determined my key variables based off my research questions. From that, I created descriptive statistic plots to answer my intended research questions. 
+
+```{r, echo=FALSE}
+mileboth <- table(data$LILATracts_1And10)
+barplot(mileboth, main="Access within 1-10 miles",
+   xlab="0 = no access less than 10 miles, 1 = access less than 10 miles")
+``` 
+Here I attempt to determine what percentage of Los Angeles County population has access to affordable fresh foods within 1-10 miles as of 2019. 
+  - The Parameter of access is being assessed at 1-10 miles away. If 0 is marked, this indicates no access within 1-10 miles to affordable fresh foods. If 1 is marked this indicates access within 1-10 miles to affordable fresh foods. Based off this, I determined that only 2.61% of Los Angeles County population has access to affordable fresh foods within 1-10 miles as of 2019. 
+
+```{r, echo=FALSE}
+mile10 <- table(data$LATracts20)
+barplot(mile10, main="Access at 10 miles",
+   xlab="0 = no access at 10 miles, 1 = access at 10 miles")
+```
+Here I attempt to determine what percentage of Los Angeles County population is it hardest to obtain affordable fresh foods (greater than 10 miles) as of 2019. 
+  - The Parameter of access is being assessed at greater than 10 miles away. If 0 is marked, this indicates no access less than 10 miles to affordable fresh foods. If 1 is marked this indicates access greater than 10 miles to affordable fresh foods. Based off this, I determined that 99.87% of Los Angeles County population has no access to affordable fresh foods in less than 10 miles as of 2019. 
+
+```{r, echo=FALSE}
+mile1 <- table(data$LATracts1)
+barplot(mile1, main="Access at 1 mile",
+   xlab="0 = no access at 1 mile, 1 = access at 1 mile")
+```
+Here I attempt to determine what percentage of Los Angeles County population is it easiest to obtain affordable fresh foods (less than one mile) as of 2019. 
+  - The Parameter of access is being assessed at less than 1 miles away. If 0 is marked, this indicates no access less than 1 miles to affordable fresh foods. If 1 is marked this indicates access greater than 1 miles to affordable fresh foods. Based off this, I determined that only 12.3% of Los Angeles County population has access to affordable fresh foods in less than 1 miles as of 2019. 
 
 ## Showcasing plots {.tabset}
 
-### Tab 1
+To Further investigate the different populations within Los Angeles County and their access to fresh affordable foods, I decided to look at the poverty rate against an appropriate distance to travel for fresh affordable foods for 5 sub-populations: Whites, African Americans, Asians, Hispanics, and American Indian and Alaska Natives. 
+
+### White Population
 
 ```{r echo=FALSE}
-p1_scatter
+data %>% 
+  plot_ly(x = ~PovertyRate, y = ~TractWhite, 
+          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
+          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
+```
+Based off this interactive visual, we find that the white population with
+
+
+
+### African American Population
+
+```{r echo=FALSE}
+data %>% 
+  plot_ly(x = ~PovertyRate, y = ~TractBlack, 
+          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
+          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
 ```
 
-### Tab 2
+### Asian Population
 
 ```{r echo=FALSE}
-p2_scatter
+data %>% 
+  plot_ly(x = ~PovertyRate, y = ~TractAsian, 
+          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
+          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
+```
+
+### Hispanic Population
+
+```{r echo=FALSE}
+data %>% 
+  plot_ly(x = ~PovertyRate, y = ~TractHispanic, 
+          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
+          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
+```
+
+### American Indian and Alaska Native Population
+
+```{r echo=FALSE}
+data %>% 
+  plot_ly(x = ~PovertyRate, y = ~TractAIAN, 
+          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
+          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
 ```
 
 ## {-}
