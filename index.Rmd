@@ -17,10 +17,13 @@ This is my PM566 Final Project website.
 ```{r setup, message=FALSE, echo=FALSE, warning=FALSE}
 library(data.table)
 library(tidyverse)
+library(tidyr)
 library(dplyr)
 library(plotly)
+library(gplots)
 library(DT)
 library(knitr)
+library(iheatmapr)
 library(readxl)
 # Initialize code chunk options
 opts_chunk$set(
@@ -37,7 +40,12 @@ opts_chunk$set(
 
 # Project Description 
 
-The University of Southern California is located in the heart of downtown Los Angeles. Despite its countless benefits as a university, USC does not offer students access to a healthy diet. The University is located in a food desert. A food desert can be described as an area where it is difficult to buy affordable, good-quality fresh food. Since the up-to-date contemporary university cannot provide their students with fresh, affordable goods, I have made an attempt to see what areas of Los Angeles are not in a food desert and families have access to affordable foods. The primary question I am set out to answer is: What percentage of Los Angeles County has access to affordable fresh foods as of 2019? I am also interested to know: What percentage of Los Angeles County is it hardest to obtain affordable fresh foods (greater than 20 miles) as of 2019? and What percentage of Los Angeles County is it easiest to obtain affordable fresh foods (less than one mile) as of 2019?
+The University of Southern California is located in the heart of downtown Los Angeles. Despite its countless benefits as a university, USC does not offer students access to a healthy diet. The University is located in a food desert. A food desert can be described as an area where it is difficult to buy affordable, good-quality fresh food. Since the up-to-date contemporary university cannot provide their students with fresh, affordable goods, I have made an attempt to see what areas of Los Angeles are not in a food desert and families have access to affordable foods. The primary question I am set out to answer is: Do low-income households in Los Angeles County have less access to affordable fresh foods than non-low-income households as of 2019? I am also interested to know: 
+
+What percentage of Los Angeles County is it hardest to obtain affordable fresh foods (greater than 20 miles) as of 2019? 
+
+
+and What percentage of Los Angeles County is it easiest to obtain affordable fresh foods (less than one mile) as of 2019?
  
 # Methods
   
@@ -45,7 +53,7 @@ My data was acquired from the USDA Economic Research Service Website (<https://w
   
 ### Read in data
 ```{r, cache=TRUE, echo=FALSE}
-data <- read_excel('FoodAccessResearch2019.xlsx')
+data <- read_excel('FoodData.xlsx')
 data
 ```
 ### Clean Data
@@ -63,98 +71,62 @@ summary(is.na(data))
 ```{r, echo=FALSE}
 # Count NA values
 data_Update <- is.na(data)
+data_Update <- na.omit(data)
+data_Update
 ```
-After reading in my data, I checked the dimensions, headers, and footers. I found that there are 2334 rows and 147 variables. After taking a closer look at the variables, I found that there were 2328 missing values; however, I kept them as NA to avoid reducing statistically power.
+After reading in my data, I checked the dimensions, headers, and footers. I found that there are 2334 rows and 147 variables. After taking a closer look at the variables, I found that there were 2328 missing values. I removed all variables which will not be used for analysis to prevent confusion and removed all missing values within key variables. 
+
+##### The Los Angeles County is made up of both rural and urban areas. A rural area is an area that is located outside of a city; they have a lower population and it is expected to have a significant geographic area between oneself and the next settlement. A urban area is defined as a city where one can expect a higher population density. There is not much space between oneself and the next settlement. Taking this into consideration it is important to identify how "low access" was measrued for this project. Due to the geographic make-up of rural vs urban areas. Low access will be measured at anything further away than 10 miles for rural areas and anything further away than 1 mile for urban areas. 
 
 # Data Exploration and Plots
 
 I determined my key variables based off my research questions. From that, I created descriptive statistic plots to answer my intended research questions. 
 
 ```{r, echo=FALSE}
-mileboth <- table(data$LILATracts_1And10)
-barplot(mileboth, main="Access within 1-10 miles",
-   xlab="0 = no access less than 10 miles, 1 = access less than 10 miles")
-``` 
-Here I attempt to determine what percentage of Los Angeles County population has access to affordable fresh foods within 1-10 miles as of 2019. 
-  - The Parameter of access is being assessed at 1-10 miles away. If 0 is marked, this indicates no access within 1-10 miles to affordable fresh foods. If 1 is marked this indicates access within 1-10 miles to affordable fresh foods. Based off this, I determined that only 2.61% of Los Angeles County population has access to affordable fresh foods within 1-10 miles as of 2019. 
+data_Update %>% 
+  plot_ly(x = ~LA1and10 , y = ~LAPOP1_10,
+          type = 'scatter', mode = 'markers', color = ~LowIncomeTracts,
+          size = ~Pop2010, sizes = c(1, 100), marker = list(sizemode='diameter', opacity=0.5))
+# Adding hoverinfo
+data_Update %>% 
+  plot_ly(x = ~LA1and10 , y = ~LAPOP1_10,
+          type = 'scatter', mode = 'markers', color = ~LowIncomeTracts,
+          size = ~Pop2010, sizes = c(1, 100), marker = list(sizemode='diameter', opacity=0.5),
+          hoverinfo = 'text',
+          text = ~paste( paste("Population:", LAPOP1_10, sep=""), 
+                paste("Low Income Tract:: ", LowIncomeTracts, sep="") , 
+                paste("Low Access Tract: ", LA1and10, sep=""), sep = "<br>")) %>%
+  layout(title = "Population with Low Access vs. Loss Access Tract at 1 mile for Urban and 10 miles for rural",
+        yaxis = list(title = "Population"), 
+         xaxis = list(title = "Access"),
+         hovermode = "compare")
+```
+In this interactive scatterplot the population with low access at 1 mile for urban areas and 10 miles for rural areas to access at 1 mile for urban areas and 10 miles for rural areas; moreover I crossed this with the low income measures. For the Low Access Tract 0 represents having low access and 1 represents not having low access. As for low Income, 0 represents having low income and 1 represents not having low income. One can observe an overall trend that those with low income typically also have low access to fresh and afforable foods at 1 mile for urban areas and 10 miles for rural areas. 
 
 ```{r, echo=FALSE}
-mile10 <- table(data$LATracts20)
-barplot(mile10, main="Access at 10 miles",
-   xlab="0 = no access at 10 miles, 1 = access at 10 miles")
+data_Update %>% filter(LowIncomeTracts=="0") %>% plot_ly(x = ~LA1and20, y = ~LAPOP1_20, type = "scatter", mode = "lines") %>%
+  add_lines(x = ~LA1and20, y = ~LAPOP1_20, type = "scatter", mode = "lines") 
 ```
-Here I attempt to determine what percentage of Los Angeles County population is it hardest to obtain affordable fresh foods (greater than 10 miles) as of 2019. 
-  - The Parameter of access is being assessed at greater than 10 miles away. If 0 is marked, this indicates no access less than 10 miles to affordable fresh foods. If 1 is marked this indicates access greater than 10 miles to affordable fresh foods. Based off this, I determined that 99.87% of Los Angeles County population has no access to affordable fresh foods in less than 10 miles as of 2019. 
+In this interactive line chart, I determine how much of the population has difficulty obtaining affordable fresh foods (greater than 1 mile for urban areas and 20 miles for rural areas) as of 2019. I chose to filter the population with low income and found that a large portion of the low-income population also has low access. We see that there is a more significant population with low income that has a hard time finding fresh, affordable. 
 
 ```{r, echo=FALSE}
-mile1 <- table(data$LATracts1)
-barplot(mile1, main="Access at 1 mile",
-   xlab="0 = no access at 1 mile, 1 = access at 1 mile")
+data_Update %>% filter(LowIncomeTracts=="0") %>% plot_ly(x = ~LAhalfand10, y = ~LAPOP05_10, type = "scatter", mode = "lines") %>%
+  add_lines(x = ~LAhalfand10, y = ~LAPOP05_10, type = "scatter", mode = "lines") 
 ```
-Here I attempt to determine what percentage of Los Angeles County population is it easiest to obtain affordable fresh foods (less than one mile) as of 2019. 
-  - The Parameter of access is being assessed at less than 1 miles away. If 0 is marked, this indicates no access less than 1 miles to affordable fresh foods. If 1 is marked this indicates access greater than 1 miles to affordable fresh foods. Based off this, I determined that only 12.3% of Los Angeles County population has access to affordable fresh foods in less than 1 miles as of 2019. 
+In this interactive line chart I attempt to determine how much of the Los Angeles County population has the easiest time to obtain affordable fresh foods (less than half a mile for urban areas and less than 10 miles for rural areas) as of 2019. Different from the pervious chart, this chart shows us that regardless of income, it is difficult to find fresh affoarble foods at less than half a mile in urban areas, and less than 10 miles in rural areas. 
 
-## Showcasing plots {.tabset}
 
-To further investigate the different populations within Los Angeles County and their access to fresh affordable foods, I decided to look at the poverty rate against an appropriate distance to travel for fresh affordable foods for 5 sub-populations: Whites, African Americans, Asians, Hispanics, and American Indian and Alaska Natives. 
 
-### White Population
 
-```{r echo=FALSE}
-data %>% 
-  plot_ly(x = ~PovertyRate, y = ~TractWhite, 
-          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
-          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
+```{r}
+ggplot(data = data_Update, aes(x = HUNVFlag, y = Pop2010)) +
+  geom_point()
+p <- ggplot(data = data_Update, aes(x = HUNVFlag, y = Pop2010)) +
+  geom_point()
+ggplotly(p) 
 ```
-Based off this interactive visual, we find that the white population within Los Angeles County lean lower on the poverty rate scale; despite this, many a lot of the white population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles. 
-
-
-
-### African American Population
-
-```{r echo=FALSE}
-data %>% 
-  plot_ly(x = ~PovertyRate, y = ~TractBlack, 
-          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
-          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
-```
-Based off this interactive visual, we find that the African American population within Los Angeles County are more evenly distributed on the poverty rate scale; despite this, the majority of theAfrican American population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles. 
-
-### Asian Population
-
-```{r echo=FALSE}
-data %>% 
-  plot_ly(x = ~PovertyRate, y = ~TractAsian, 
-          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10	,
-          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
-```
-Based off this interactive visual, we find that the Asian population within Los Angeles County stays consistent in population size and are leaning slightly lower on the poverty rate scale; from this, the majority of the Asian population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles. 
-
-### Hispanic Population
-
-```{r echo=FALSE}
-data %>% 
-  plot_ly(x = ~PovertyRate, y = ~TractHispanic, 
-          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
-          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
-```
-Based off this interactive visual, we find that the Hispanic population within Los Angeles County consistently remains the biggest sub-population and are leaning lower on the poverty rate scale; from this, the majority of the Hispanic population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles.
-
-### American Indian and Alaska Native Population
-
-```{r echo=FALSE}
-data %>% 
-  plot_ly(x = ~PovertyRate, y = ~TractAIAN, 
-          type = 'scatter', mode = 'markers', color = ~LILATracts_1And10,
-          size = ~1, sizes = c(5, 70), marker = list(sizemode='diameter', opacity=0.5))
-```
-Based off this interactive visual, we find that the American Indian and Alaska Native population within Los Angeles County consistently remains the smallest sub-population and are leaning lower on the poverty rate scale; from this, the majority of the American Indian and Alaska Native population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles.
-
-## {-}
-
+I wanted to see what portion of the population has access to a vehicle, based off the interactive dot chart, the majority of the population does not have access to a vechile making more difficult to reach fresh and affordable foods in Los Angeles. 
 
 # Conclusion
 
-We that only 2.61% of the Los Angeles County population has access to affordable fresh foods within 1-10 miles as of 2019. Also, 99.87% of the Los Angeles County population has no access to affordable fresh foods in less than 10 miles as of 2019. Moreover, only 12.3% of the Los Angeles County population has access to affordable fresh foods in less than 1 mile as of 2019. 
-
-To further investigate the different populations within Los Angeles County and their access to fresh, affordable foods, we looked at the poverty rate against an appropriate distance to travel for fresh, affordable foods for 5 sub-populations: Whites, African Americans, Asians, Hispanics, and American Indian and Alaska Natives. We saw a consistently high white population within Los Angeles County; according to the data, the lean lower on the poverty rate scale, and many of the white population in Los Angeles County lacks access to Fresh, Affordable foods within 1-10 miles. We find that the African American population within Los Angeles County is more evenly distributed on the poverty rate scale; despite this, the majority of the African American population in Los Angeles County lacks access to Fresh, Affordable foods within 1-10 miles. The  Asian population within Los Angeles County stays consistent in population size and is leaning slightly lower on the poverty rate scale; from this, the majority of the Asian population in Los Angeles County lacks access to Fresh, Affordable foods within 1-10 miles. The Hispanic population within Los Angeles County consistently remains the biggest sub-population and is leaning lower on the poverty rate scale; from this, the majority of the Hispanic population in Los Angeles County lacks access to Fresh, Affordable foods within 1-10 miles. Lastly, we find that the American Indian and Alaska Native population within Los Angeles County consistently remains the smallest sub-population and is leaning lower on the poverty rate scale; from this, the majority of the American Indian and Alaska Native population in Los Angeles County lacks access to Fresh Affordable foods within 1-10 miles.
+Los Angeles County is a food desert for both urban and rural areas. However, urban areas tend to have greater access to fresh and affordable foods regardless of their income. 

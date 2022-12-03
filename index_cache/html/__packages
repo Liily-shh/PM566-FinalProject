@@ -12,3 +12,5 @@ plotly
 DT
 knitr
 readxl
+gplots
+iheatmapr
