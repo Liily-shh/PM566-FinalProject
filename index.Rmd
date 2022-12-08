@@ -8,7 +8,7 @@ output:
 ---
 
 This is my PM566 Final Project website.
-**Download PDF Report:** [**Click Here**](https://github.com/Liily-shh/PM566-FinalProject/raw/main/index.pdf)
+**Download PDF Report:** [**Click Here**](https://github.com/Liily-shh/PM566-FinalProject/raw/main/Report.pdf)
 
 <br>
 
@@ -43,7 +43,7 @@ The University of Southern California is located in the heart of downtown Los An
  
 # Methods
   
-My data was acquired from the USDA Economic Research Service Website (<https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/#Current%20Version>).
+The data was acquired from the USDA Economic Research Service Website (<https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/#Current%20Version>).
 
 Upon examining the original dataset, it was found that many variables had no data; therefore, to make the data easier to read, all data not used in the project were removed beforehand. 
   
@@ -127,9 +127,13 @@ p <- ggplot(data, aes(LAPOP1_20 , LA1and20, fill= LowIncomeTracts)) +
   geom_tile() +
   theme_ipsum()
 
-ggplotly(p, tooltip="text")
+ggplotly(p, tooltip="text") %>% 
+  layout(title = "Easiest Access To Fresh Affordable foods",
+        yaxis = list(title = "Population"), 
+         xaxis = list(title = "Access"),
+         hovermode = "compare")
 ```
-In this interactive heatmap, we can interact with the map to get close to specific variables and see how the population crosses against access and income. We are explicitly looking at much of the Los Angeles County population has the easiest time obtaining affordable fresh foods (less than half a mile for urban areas and less than 10 miles for rural areas) as of 2019. This map shows that while it is still more challenging for those with low income to access fresh, affordable foods, there is a lower population with access at less than half a mile in urban areas and less than 10 miles in rural areas.
+In this interactive heatmap, we can interact with the map to get close to specific variables and see how the population crosses against access and income. We are explicitly looking at much of the Los Angeles County population has the easiest time obtaining affordable fresh foods (less than half a mile for urban areas and less than 10 miles for rural areas) as of 2019. This map shows that while it is still more challenging for those with low income to access fresh, affordable foods, there is a higher population with access at less than half a mile in urban areas and less than 10 miles in rural areas.
 
 # Conclusion
 

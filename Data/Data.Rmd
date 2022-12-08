@@ -1,0 +1,5 @@
+Where to Access Original Dataset:
+
+The data was acquired from the USDA Economic Research Service Website (<https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/#Current%20Version>).
+
+Upon examining the original dataset, it was found that many variables had no data; therefore, to make the data easier to read, all data not used in the project were removed beforehand. However, project can be completely reproducible with original dataset. 
