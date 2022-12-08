@@ -34,7 +34,7 @@ We sorted to only see data representing low-income. Based on this, we determine 
 
 ### The Interactive Heatmap
 
-We can interact with the map to get close to specific variables and see how the population crosses against access and income. We are explicitly looking at much of the Los Angeles County population has the easiest time obtaining affordable fresh foods (less than half a mile for urban areas and less than 10 miles for rural areas) as of 2019. This map shows that while it is still more challenging for those with low income to access fresh, affordable foods, there is a lower population with access at less than half a mile in urban areas and less than 10 miles in rural areas.
+We can interact with the map to get close to specific variables and see how the population crosses against access and income. We are explicitly looking at much of the Los Angeles County population has the easiest time obtaining affordable fresh foods (less than half a mile for urban areas and less than 10 miles for rural areas) as of 2019. This map shows that while it is still more challenging for those with low income to access fresh, affordable foods, there is a higher population with access at less than half a mile in urban areas and less than 10 miles in rural areas.
 
 # Conclusion
 
