@@ -14,3 +14,7 @@ knitr
 readxl
 gplots
 iheatmapr
+viridisLite
+viridis
+heatmaply
+hrbrthemes

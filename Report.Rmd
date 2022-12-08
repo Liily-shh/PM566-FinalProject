@@ -1,0 +1,41 @@
+---
+title: "PM566 Final Project"
+author: "Lily Shkhyan"
+output: 
+   pdf_document: default
+   html_document: FALSE
+---
+
+# Introduction
+
+The University of Southern California is located in the heart of downtown Los Angeles. Despite its countless benefits as a university, USC does not offer students access to a healthy diet. The University is located in a food desert. A food desert can be described as an area where it is difficult to buy affordable, good-quality fresh food. Since the up-to-date contemporary university cannot provide their students with fresh, affordable goods, I have made an attempt to see what areas of Los Angeles are not in a food desert and families have access to affordable foods. The primary question I am set out to answer is: Do low-income households in Los Angeles County have less access to affordable fresh foods than non-low-income households as of 2019? I am also interested to know: Do the same amount of low-income households in Los Angeles County find it hardest to obtain affordable fresh foods (greater than 20 miles) as of 2019? Do the same amount of low-income households in Los Angeles County find it easiest to obtain affordable fresh foods (less than one mile) as of 2019?
+
+# Methods
+  
+My data was acquired from the USDA Economic Research Service Website (<https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/#Current%20Version>).
+
+Upon examining the original dataset, it was found that many variables had no data; therefore, to make the data easier to read, all data not used in the project were removed beforehand. After reading the data, I checked the dimensions, headers, and footers. I found that there are 2622 rows and 88 variables. After taking a closer look at the variables, I found that there were 288 missing values. I removed all variables which will not be used for analysis to prevent confusion and removed all missing values within key variables. 
+
+### Understanding Key Variables 
+
+Los Angeles County is made up of both rural and urban areas. A rural area is an area that is located outside of a city; they have a lower population and is expected to have a significant geographic area between themselves and the subsequent settlement. An urban area is defined as a city where one can expect a higher population density. There is not much space between oneself and the subsequent settlement. Considering this, it is essential to identify how "low access" was measured for this project due to the geographic makeup of rural vs. urban areas. Low access will be measured at anything further away than 10 miles for rural areas and anything further away than 1 mile for urban areas. 
+
+# Results
+
+I determined my key variables based off my research questions. From that, I created descriptive statistic plots to answer my intended research questions. 
+
+### The Interactive Scatterplot
+
+We crossed the population with low access at 1 mile for urban areas and 10 miles for rural areas to access at 1 mile for urban areas and 10 miles for rural areas; moreover, I crossed this with the low-income measures. For the Low Access Tract, 0 represents having low access, and 1 represents not having low access. As for low Income, 0 represents having low income, and 1 represents not having a low income. One can observe an overall trend that those with low income typically also have low access to fresh and affordable foods at 1 mile for urban areas and 10 miles for rural areas.
+
+### The Interactive Multiple-line Chart 
+
+We sorted to only see data representing low-income. Based on this, we determine how much of the population has difficulty obtaining affordable fresh foods (greater than 1 mile for urban areas and 20 miles for rural areas) as of 2019. we chose to filter the population with low income and found that a large portion of the low-income population also has low access. We see that there is a more significant population with low income that has a hard time finding fresh, affordable at 1 mile for urban areas and 20 miles for rural areas as of 2019 represented by the negative slope the graph. 
+
+### The Interactive Heatmap
+
+We can interact with the map to get close to specific variables and see how the population crosses against access and income. We are explicitly looking at much of the Los Angeles County population has the easiest time obtaining affordable fresh foods (less than half a mile for urban areas and less than 10 miles for rural areas) as of 2019. This map shows that while it is still more challenging for those with low income to access fresh, affordable foods, there is a lower population with access at less than half a mile in urban areas and less than 10 miles in rural areas.
+
+# Conclusion
+
+Los Angeles County is a food desert for both urban and rural areas. Access to fresh and affordable foods is dependent on income. Families with low income have more difficulty accessing fresh and affordable foods at 1 mile in urban areas and 10 miles in rural areas. It is even harder to find food within half a mile in urban areas and less than 10 miles in rural areas, and there is a higher chance of having access beyond 1 mile for urban areas and 20 miles for rural areas. In conclusion, despite geographical location and income, Los Angeles is a food desert for most of its population. 
